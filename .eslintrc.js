@@ -28,12 +28,4 @@ module.exports = {
             },
         ],
     },
-    overrides: [
-        {
-            files: ['src/*'],
-            rules: {
-                quotes: [2, 'single'],
-            },
-        },
-    ],
 }
