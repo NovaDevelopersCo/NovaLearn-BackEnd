@@ -3,7 +3,7 @@ import { PostsService } from './posts.service'
 import { PostsController } from './posts.controller'
 import { Post } from './posts.model'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { User } from 'src/users/users.model'
+import { User } from 'src/users/model/users.model'
 import { FilesModule } from 'src/files/files.module'
 
 @Module({
