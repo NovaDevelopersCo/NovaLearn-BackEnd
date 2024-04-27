@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post } from './posts.model'
+import { Post } from './model/posts.model'
 import { CreatePostDto } from './dto/create-post.dto'
 import { FilesService } from 'src/files/files.service'
 
