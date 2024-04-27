@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
-    AllowNull,
     BelongsToMany,
     Column,
     DataType,
@@ -8,9 +7,9 @@ import {
     Model,
     Table,
 } from 'sequelize-typescript'
-import { Post } from 'src/posts/model/posts.model'
-import { Role } from 'src/roles/model/roles.model'
-import { UserRoles } from 'src/roles/model/user-roles.model'
+import { Post } from 'src/modules/posts/model/posts.model'
+import { Role } from 'src/modules/roles/model/roles.model'
+import { UserRoles } from 'src/modules/roles/model/user-roles.model'
 
 interface UserCreationAttrs {
     email: string
