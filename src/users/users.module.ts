@@ -3,11 +3,11 @@ import { UsersController } from './users.controller'
 import { UsersService } from './users.service'
 import { User } from './model/users.model'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { Role } from 'src/roles/roles.model'
+import { Role } from 'src/roles/model/roles.model'
 import { RolesModule } from 'src/roles/roles.module'
 import { AuthService } from 'src/auth/auth.service'
 import { AuthModule } from 'src/auth/auth.module'
-import { UserRoles } from 'src/roles/user-roles.model'
+import { UserRoles } from 'src/roles/model/user-roles.model'
 import { Post } from 'src/posts/posts.model'
 
 @Module({
