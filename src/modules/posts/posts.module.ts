@@ -4,7 +4,7 @@ import { PostsController } from './posts.controller'
 import { Post } from './model/posts.model'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { User } from 'src/users/model/users.model'
-import { FilesModule } from 'src/files/files.module'
+import { FilesModule } from 'src/modules/files/files.module'
 
 @Module({
     providers: [PostsService],
