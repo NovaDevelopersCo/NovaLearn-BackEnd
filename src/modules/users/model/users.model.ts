@@ -14,6 +14,8 @@ import { Role } from 'src/modules/roles/model/roles.model'
 interface UserCreationAttrs {
     email: string
     password: string
+    roleId: number
+    roles: Role
 }
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
