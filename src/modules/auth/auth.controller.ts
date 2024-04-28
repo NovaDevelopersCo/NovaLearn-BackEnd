@@ -19,7 +19,7 @@ export class AuthController {
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    createUser(@Body() userDto: CreateUserDto) {
-        return this.authService.createUser(userDto)
+    createUser() {
+        return this.authService.createUser()
     }
 }
