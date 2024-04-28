@@ -15,7 +15,7 @@ export class UsersService {
 
     async createUser(dto: CreateUserDto) {
         const user = await this.userRepository.create(dto)
-        const role = await this.roleService.getRoleByValue('GUEST')
+        const role = await this.roleService.getRoleByValue('ADMIN')
         if (user && role) {
             user.roleId = role.id
             user.save()
