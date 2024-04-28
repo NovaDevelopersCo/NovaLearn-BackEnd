@@ -1,17 +1,17 @@
-import { Module } from "@nestjs/common";
-import { SequelizeModule } from "@nestjs/sequelize";
-import { UsersModule } from './users/users.module';
-import { ConfigModule } from "@nestjs/config";
-import { User } from "./users/users.model";
-import { RolesModule } from './roles/roles.module';
-import { Role } from "./roles/roles.model";
-import { UserRoles } from "./roles/user-roles.model";
-import { AuthModule } from './auth/auth.module';
-import { PostsModule } from './posts/posts.module';
-import { Post } from "./posts/posts.model";
-import { FilesModule } from './files/files.module';
-import { ServeStaticModule } from "@nestjs/serve-static";
-import * as path from "path";
+import { Module } from '@nestjs/common'
+import { SequelizeModule } from '@nestjs/sequelize'
+import { UsersModule } from './modules/users/users.module'
+import { ConfigModule } from '@nestjs/config'
+import { User } from './modules/users/model/users.model'
+import { RolesModule } from './modules/roles/roles.module'
+import { Role } from './modules/roles/model/roles.model'
+import { UserRoles } from './modules/roles/model/user-roles.model'
+import { AuthModule } from './modules/auth/auth.module'
+import { PostsModule } from './modules/posts/posts.module'
+import { Post } from './modules/posts/model/posts.model'
+import { FilesModule } from './modules/files/files.module'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import * as path from 'path'
 @Module({
     controllers: [],
     providers: [],
@@ -31,10 +31,10 @@ import * as path from "path";
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
             dialectOptions: {
-              ssl: {
-                require: true,
-                rejectUnauthorized: false,
-              },
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false,
+                },
             },
             models: [User, Role, UserRoles, Post],
             autoLoadModels: true,
@@ -47,5 +47,4 @@ import * as path from "path";
         FilesModule,
     ],
 })
-
-export class AppModule { }
+export class AppModule {}
