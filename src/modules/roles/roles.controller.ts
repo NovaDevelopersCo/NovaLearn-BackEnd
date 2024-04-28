@@ -1,8 +1,24 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common'
 import { RolesService } from './roles.service'
 import { CreateRoleDto } from './dto/create-role.dto'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger'
 import { Role } from './model/roles.model'
+import { Roles } from 'src/decorators/roles-auth.decorator'
+import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Роли')
 @Controller('roles')
@@ -11,6 +27,9 @@ export class RolesController {
 
     @ApiOperation({ summary: 'Создание роли' })
     @ApiResponse({ status: 200, type: Role })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Post()
     create(@Body() dto: CreateRoleDto) {
         return this.roleService.createRole(dto)
@@ -19,5 +38,29 @@ export class RolesController {
     @Get('/:value')
     getByValue(@Param('value') value: string) {
         return this.roleService.getRoleByValue(value)
+    }
+
+    @Put('/:value')
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
+        return this.roleService.updateRole(value, dto)
+    }
+
+    @Delete('/:value')
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    deleteRole(@Param('value') value: string) {
+        return this.roleService.deleteRole(value)
+    }
+
+    @Get()
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    getAll() {
+        return this.roleService.getAll()
     }
 }
