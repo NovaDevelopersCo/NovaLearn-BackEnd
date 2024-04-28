@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Post,
@@ -45,6 +46,14 @@ export class RolesController {
     @UseGuards(RolesGuard)
     updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
         return this.roleService.updateRole(value, dto)
+    }
+
+    @Delete('/:value')
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    deleteRole(@Param('value') value: string) {
+        return this.roleService.deleteRole(value)
     }
 
     @Get()

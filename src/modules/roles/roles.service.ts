@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpStatus, Injectable } from '@nestjs/common'
 import { CreateRoleDto } from './dto/create-role.dto'
 import { InjectModel } from '@nestjs/sequelize'
 import { Role } from './model/roles.model'
@@ -22,6 +22,11 @@ export class RolesService {
     async getRoleByValue(value: string) {
         const role = await this.roleRepository.findOne({ where: { value } })
         return role
+    }
+
+    async deleteRole(value: string) {
+        await this.roleRepository.destroy({ where: { value } })
+        return { status: HttpStatus.OK, message: 'Role deleted' }
     }
 
     async updateRole(value: string, dto) {
