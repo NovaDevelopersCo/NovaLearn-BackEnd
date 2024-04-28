@@ -11,4 +11,11 @@ export class CreateUserDto {
     @IsString({ message: 'Должно быть строкой' })
     @Length(4, 16, { message: 'От 4 до 16 символов' })
     readonly password: string
+
+    @ApiProperty({
+        example: '12345',
+        description: 'Пароль пользователя',
+        required: false,
+    })
+    readonly roleId?: number
 }

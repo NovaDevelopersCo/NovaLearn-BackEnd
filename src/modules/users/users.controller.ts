@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UsersService } from './users.service'
 import {
     ApiBearerAuth,
@@ -18,16 +17,6 @@ import { BanUserDto } from './dto/ban-user.dto'
 export class UsersController {
     constructor(private userService: UsersService) {}
 
-    @ApiOperation({ summary: 'Создание пользователя' })
-    @ApiResponse({ status: 200, type: User })
-    @Post()
-    @Roles('ADMIN')
-    @ApiBearerAuth('JWT-auth')
-    @UseGuards(RolesGuard)
-    create(@Body() userDto: CreateUserDto) {
-        return this.userService.createUser(userDto)
-    }
-
     @ApiOperation({ summary: 'Получить всех пользователей' })
     @ApiResponse({ status: 200, type: [User] })
     @Roles('ADMIN')
@@ -44,8 +33,8 @@ export class UsersController {
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post('/role')
-    addRole(@Body() dto: AddRoleDto) {
-        return this.userService.addRole(dto)
+    changeRole(@Body() dto: AddRoleDto) {
+        return this.userService.changeRole(dto)
     }
 
     @ApiOperation({ summary: 'Забанить пользователя' })

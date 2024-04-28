@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common'
 import { RolesService } from './roles.service'
 import { CreateRoleDto } from './dto/create-role.dto'
 import {
@@ -29,5 +38,29 @@ export class RolesController {
     @Get('/:value')
     getByValue(@Param('value') value: string) {
         return this.roleService.getRoleByValue(value)
+    }
+
+    @Put('/:value')
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
+        return this.roleService.updateRole(value, dto)
+    }
+
+    @Delete('/:value')
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    deleteRole(@Param('value') value: string) {
+        return this.roleService.deleteRole(value)
+    }
+
+    @Get()
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    getAll() {
+        return this.roleService.getAll()
     }
 }
