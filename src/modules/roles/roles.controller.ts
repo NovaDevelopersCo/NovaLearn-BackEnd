@@ -43,7 +43,7 @@ export class RolesController {
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    updateRole(@Param('value') value: string) {
-        return this.roleService.updateRole(value)
+    updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
+        return this.roleService.updateRole(value, dto)
     }
 }

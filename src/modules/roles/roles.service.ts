@@ -17,10 +17,14 @@ export class RolesService {
         return role
     }
 
-    async updateRole(value: string) {
+    async updateRole(value: string, dto) {
         const role = await this.getRoleByValue(value)
-        console.log(role)
-
+        if (!role) {
+            throw new Error('Role not found')
+        }
+        role.value = dto.value
+        role.description = dto.description
+        await role.save()
         return role
     }
 }
