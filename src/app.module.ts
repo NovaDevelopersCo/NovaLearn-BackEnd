@@ -5,7 +5,6 @@ import { ConfigModule } from '@nestjs/config'
 import { User } from './modules/users/model/users.model'
 import { RolesModule } from './modules/roles/roles.module'
 import { Role } from './modules/roles/model/roles.model'
-import { UserRoles } from './modules/roles/model/user-roles.model'
 import { AuthModule } from './modules/auth/auth.module'
 import { PostsModule } from './modules/posts/posts.module'
 import { Post } from './modules/posts/model/posts.model'
@@ -36,7 +35,7 @@ import * as path from 'path'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, UserRoles, Post],
+            models: [User, Role, Post],
             autoLoadModels: true,
             synchronize: true,
         }),
