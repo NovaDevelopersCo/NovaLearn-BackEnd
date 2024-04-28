@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
-    BelongsToMany,
+    BelongsTo,
     Column,
     DataType,
+    ForeignKey,
     HasMany,
     Model,
     Table,
 } from 'sequelize-typescript'
 import { Post } from 'src/modules/posts/model/posts.model'
 import { Role } from 'src/modules/roles/model/roles.model'
-import { UserRoles } from 'src/modules/roles/model/user-roles.model'
 
 interface UserCreationAttrs {
     email: string
@@ -42,7 +42,12 @@ export class User extends Model<User, UserCreationAttrs> {
     @Column({ type: DataType.STRING, allowNull: true, defaultValue: null })
     banReason: string
 
-    @BelongsToMany(() => Role, () => UserRoles)
+    @ApiProperty({ example: 1, description: 'Id категории' })
+    @ForeignKey(() => Role)
+    @Column({ type: DataType.INTEGER })
+    roleId: number
+
+    @BelongsTo(() => Role)
     roles: Role
 
     @HasMany(() => Post)
