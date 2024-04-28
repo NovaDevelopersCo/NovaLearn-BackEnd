@@ -1,9 +1,4 @@
-import {
-    HttpException,
-    HttpStatus,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { UsersService } from 'src/modules/users/users.service'
@@ -21,23 +16,7 @@ export class AuthService {
         return this.generateToken(user)
     }
 
-    async registration(userDto: CreateUserDto) {
-        const candidate = await this.userService.getUserByEmail(userDto.email)
-        if (candidate) {
-            throw new HttpException(
-                'User already exists',
-                HttpStatus.BAD_REQUEST
-            )
-        }
-        const hashPassword = await bcrypt.hash(userDto.password, 10)
-        const user = await this.userService.createUser({
-            ...userDto,
-            password: hashPassword,
-        })
-        return this.generateToken(user)
-    }
-
-    private async generateToken(user: User) {
+    async generateToken(user: User) {
         const payload = { email: user.email, id: user.id, roles: user.roles }
         return {
             token: this.jwtService.sign(payload),
