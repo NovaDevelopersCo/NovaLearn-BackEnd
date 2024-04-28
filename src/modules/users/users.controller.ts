@@ -44,8 +44,8 @@ export class UsersController {
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post('/role')
-    addRole(@Body() dto: AddRoleDto) {
-        return this.userService.addRole(dto)
+    changeRole(@Body() dto: AddRoleDto) {
+        return this.userService.changeRole(dto)
     }
 
     @ApiOperation({ summary: 'Забанить пользователя' })
