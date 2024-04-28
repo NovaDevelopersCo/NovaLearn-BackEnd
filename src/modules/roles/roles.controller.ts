@@ -46,4 +46,12 @@ export class RolesController {
     updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
         return this.roleService.updateRole(value, dto)
     }
+
+    @Get()
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    getAll() {
+        return this.roleService.getAll()
+    }
 }
