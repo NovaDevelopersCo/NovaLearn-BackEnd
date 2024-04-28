@@ -19,7 +19,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Получить всех пользователей' })
     @ApiResponse({ status: 200, type: [User] })
-    @Roles('ADMIN')
+    @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Get()
@@ -29,7 +29,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Выдать роль' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+    @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post('/role')
@@ -39,7 +39,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Забанить пользователя' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+    @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post('/ban')
