@@ -16,7 +16,7 @@ export class AuthController {
     }
 
     @Post('/createUser')
-    @Roles('ADMIN')
+    @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     createUser() {
