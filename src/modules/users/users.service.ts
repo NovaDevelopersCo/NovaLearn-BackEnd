@@ -1,32 +1,21 @@
-import { HttpStatus, Injectable, HttpException } from '@nestjs/common'
+import { HttpStatus, Injectable, HttpException, Logger } from '@nestjs/common'
 import { User } from './model/users.model'
 import { InjectModel } from '@nestjs/sequelize'
-import { CreateUserDto } from './dto/create-user.dto'
 import { RolesService } from '../roles/roles.service'
 import { AddRoleDto } from './dto/add-role.dto'
 import { BanUserDto } from './dto/ban-user.dto'
-
+import * as bcrypt from 'bcryptjs'
 @Injectable()
 export class UsersService {
     constructor(
         @InjectModel(User) private userRepository: typeof User,
         private roleService: RolesService
     ) {}
-
-    async createUser(dto: CreateUserDto) {
-        const user = await this.userRepository.create(dto)
-        const role = await this.roleService.getRoleByValue('ADMIN')
-        if (user && role) {
-            user.roleId = role.id
-            user.save()
-            return user
-        }
-    }
-
     async getAllUsers() {
         const users = await this.userRepository.findAll({
             include: { all: true },
         })
+        Logger.log('Everyone users got:' + users.length)
         return users
     }
 
@@ -35,7 +24,52 @@ export class UsersService {
             where: { email },
             include: { all: true },
         })
+        Logger.log('User with email: ' + user.email + 'got')
         return user
+    }
+
+    async delUser(email) {
+        const user = await this.userRepository.findOne({ where: { email } })
+        if (!user) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+        }
+        try {
+            await user.destroy()
+            Logger.log(`User ${email} was deleted successfully`)
+            return { message: 'User deleted successfully', user }
+        } catch (error) {
+            Logger.log(
+                `Error deleting user with email ${email}: ${error.message}`
+            )
+            throw new HttpException(
+                'Error deleting user',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            )
+        }
+    }
+
+    async createUser() {
+        const plainPassword = Math.random().toString(36).slice(-8)
+        const hashPassword = await bcrypt.hash(plainPassword, 10)
+
+        const user = await this.userRepository.create({
+            email: Math.random().toString(36).slice(-8) + '@nova.com',
+            password: hashPassword,
+        })
+
+        const role = await this.roleService.getRoleByValue('STUDENT')
+        if (user && role) {
+            user.roleId = role.id
+            await user.save()
+        }
+
+        const credential =
+            'Данные для входа:\n Login: ' +
+            user.email +
+            '\n Password: ' +
+            plainPassword
+        Logger.log('User created successfully')
+        return credential
     }
 
     async changeRole(dto: AddRoleDto) {
@@ -44,19 +78,31 @@ export class UsersService {
         if (user && role) {
             user.roleId = role.id
             user.save()
+            Logger.log('Role chenged')
             return user
         }
+        Logger.log('User or role not found')
         throw new HttpException('User or role not found', HttpStatus.NOT_FOUND)
     }
 
     async ban(dto: BanUserDto) {
         const user = await this.userRepository.findByPk(dto.userId)
         if (!user) {
+            Logger.log('User not found')
             throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         }
-        user.banned = true
-        user.banReason = dto.banReason
-        await user.save()
-        return user
+        try {
+            user.banned = true
+            user.banReason = dto.banReason
+            await user.save()
+            Logger.log('User banned successfully')
+            return user
+        } catch {
+            Logger.log('Error banning user')
+            throw new HttpException(
+                'Error banning user',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            )
+        }
     }
 }

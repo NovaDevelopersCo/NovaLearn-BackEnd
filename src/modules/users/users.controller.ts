@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    UseGuards,
+} from '@nestjs/common'
 import { UsersService } from './users.service'
 import {
     ApiBearerAuth,
@@ -11,6 +19,7 @@ import { RolesGuard } from 'src/guards/roles.guard'
 import { Roles } from 'src/decorators/roles-auth.decorator'
 import { AddRoleDto } from './dto/add-role.dto'
 import { BanUserDto } from './dto/ban-user.dto'
+import { DelUserDto } from './dto/delete-user.dto'
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -27,6 +36,16 @@ export class UsersController {
         return this.userService.getAllUsers()
     }
 
+    @ApiOperation({ summary: "Получить пользователя по Email"})
+    @ApiResponse({ status: 200, type: [User] })
+    @Roles('ADMIN', 'SUPER_ADMIN', "TEACHER")
+    @ApiBearerAuth("JWT-auth")
+    @UseGuards(RolesGuard)
+    @Get('/:email')
+    getUserByEmail(@Param('email') email: string) {
+        return this.userService.getUserByEmail(email)
+    }
+
     @ApiOperation({ summary: 'Выдать роль' })
     @ApiResponse({ status: 200 })
     @Roles('ADMIN', 'SUPER_ADMIN')
@@ -37,6 +56,16 @@ export class UsersController {
         return this.userService.changeRole(dto)
     }
 
+    @Post('/createUser')
+    @ApiOperation({ summary: 'Создать пользователя' })
+    @ApiResponse({ status: 200 })
+    @Roles('ADMIN', 'SUPER_ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    createUser() {
+        return this.userService.createUser()
+    }
+
     @ApiOperation({ summary: 'Забанить пользователя' })
     @ApiResponse({ status: 200 })
     @Roles('ADMIN', 'SUPER_ADMIN')
@@ -45,5 +74,14 @@ export class UsersController {
     @Post('/ban')
     banUser(@Body() dto: BanUserDto) {
         return this.userService.ban(dto)
+    }
+    @ApiOperation({ summary: 'Удалить Пользывателя' })
+    @ApiResponse({ status: 200 })
+    @Roles('ADMIN', 'SUPER_ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    @Delete('/del/:email')
+    delUser(@Param('email') dto: DelUserDto) {
+        return this.userService.delUser(dto)
     }
 }
