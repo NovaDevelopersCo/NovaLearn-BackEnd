@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { UsersService } from 'src/modules/users/users.service'
@@ -17,11 +17,24 @@ export class AuthService {
         return this.generateToken(user)
     }
 
-    async token(tokenDto: string): Promise<any>{
+    async token(token: string): Promise<any> {
         try {
-            const decodedToken = this.jwtService.verify(tokenDto)
-            const { email } = decodedToken
+            const decodedToken = this.jwtService.verify(token)
+            const { roles } = decodedToken
+
+            if (!roles) {
+                Logger.log('Invalid token')
+                throw new UnauthorizedException('Invalid token')
+            }
+
+            const active = {
+                SUPER_ADMIN: 'valid',
+                ADMIN: 'valid',
+            }
+            Logger.log('valid')
+            return active[roles.active] || null
         } catch (error) {
+            Logger.log('Invalid token')
             throw new UnauthorizedException('Invalid token')
         }
     }
