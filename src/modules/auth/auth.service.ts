@@ -4,6 +4,7 @@ import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { UsersService } from 'src/modules/users/users.service'
 import * as bcrypt from 'bcryptjs'
 import { User } from 'src/modules/users/model/users.model'
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -16,6 +17,14 @@ export class AuthService {
         return this.generateToken(user)
     }
 
+    async token(tokenDto: string): Promise<any>{
+        try {
+            const decodedToken = this.jwtService.verify(tokenDto)
+            const { email } = decodedToken
+        } catch (error) {
+            throw new UnauthorizedException('Invalid token')
+        }
+    }
     async createUser() {
         const hashPassword = await bcrypt.hash(
             Math.random().toString(36).slice(-8),

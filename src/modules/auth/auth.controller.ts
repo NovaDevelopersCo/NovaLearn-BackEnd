@@ -15,6 +15,14 @@ export class AuthController {
         return this.authService.login(userDto)
     }
 
+    @Post('/validate/token')
+    @Roles('ADMIN', 'SUPER_ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    token(@Body() token: string) {
+        return this.authService.token(token)
+    }
+
     @Post('/createUser')
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
