@@ -41,8 +41,8 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN', 'TEACHER')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Get('/:email')
-    getUserByEmail(@Param('email') email: string) {
+    @Get('/email')
+    getUserByEmail(@Body('email') email: string) {
         return this.userService.getUserByEmail(email)
     }
 
@@ -80,8 +80,8 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Delete('/del/:email')
-    delUser(@Param('email') dto: DelUserDto) {
+    @Delete('/del')
+    delUser(@Body('email') dto: DelUserDto) {
         return this.userService.delUser(dto)
     }
 }
