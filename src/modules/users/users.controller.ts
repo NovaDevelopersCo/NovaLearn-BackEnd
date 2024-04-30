@@ -36,10 +36,10 @@ export class UsersController {
         return this.userService.getAllUsers()
     }
 
-    @ApiOperation({ summary: "Получить пользователя по Email"})
+    @ApiOperation({ summary: 'Получить пользователя по Email' })
     @ApiResponse({ status: 200, type: [User] })
-    @Roles('ADMIN', 'SUPER_ADMIN', "TEACHER")
-    @ApiBearerAuth("JWT-auth")
+    @Roles('ADMIN', 'SUPER_ADMIN', 'TEACHER')
+    @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Get('/:email')
     getUserByEmail(@Param('email') email: string) {

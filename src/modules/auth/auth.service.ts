@@ -13,7 +13,7 @@ export class AuthService {
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
-        Logger.log("User was logged in successfully")
+        Logger.log('User was logged in successfully')
         return this.generateToken(user)
     }
     private async generateToken(user: User) {
