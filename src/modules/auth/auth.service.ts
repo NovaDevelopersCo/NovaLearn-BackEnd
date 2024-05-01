@@ -17,27 +17,30 @@ export class AuthService {
         return this.generateToken(user)
     }
 
-    async token(token: string): Promise<any> {
+    async validateToken(
+        authorizationHeader: string
+    ): Promise<{ message: string }> {
         try {
+            const token = this.extractToken(authorizationHeader)
             const decodedToken = this.jwtService.verify(token)
-            const { roles } = decodedToken
 
-            if (!roles) {
-                Logger.log('Invalid token')
-                throw new UnauthorizedException('Invalid token')
+            if (!decodedToken.roles || !decodedToken.roles.value) {
+                throw new UnauthorizedException('Invalid role in token')
             }
 
-            const active = {
-                SUPER_ADMIN: 'valid',
-                ADMIN: 'valid',
+            const validRoles = ['SUPER_ADMIN', 'ADMIN']
+            const role = decodedToken.roles.value
+
+            if (validRoles.includes(role)) {
+                return { message: 'valid' }
+            } else {
+                return { message: 'no valid' }
             }
-            Logger.log('valid')
-            return active[roles.active] || null
         } catch (error) {
-            Logger.log('Invalid token')
             throw new UnauthorizedException('Invalid token')
         }
     }
+
     async createUser() {
         const hashPassword = await bcrypt.hash(
             Math.random().toString(36).slice(-8),
@@ -56,7 +59,15 @@ export class AuthService {
             token: this.jwtService.sign(payload),
         }
     }
-
+    private extractToken(authorizationHeader: string): string {
+        if (
+            !authorizationHeader ||
+            !authorizationHeader.startsWith('Bearer ')
+        ) {
+            throw new UnauthorizedException('Invalid authorization header')
+        }
+        return authorizationHeader.split(' ')[1]
+    }
     private async validateUser(userDto: CreateUserDto) {
         const user = await this.userService.getUserByEmail(userDto.email)
         const passwordEquals = await bcrypt.compare(

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Headers, Post, UseGuards } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Headers,
+    Post,
+    Req,
+    UnauthorizedException,
+    UseGuards,
+} from '@nestjs/common'
 import {
     ApiBearerAuth,
     ApiOperation,
@@ -20,13 +29,15 @@ export class AuthController {
         return this.authService.login(userDto)
     }
 
-    @ApiOperation({ summary: 'Проверка токена на валидность' })
+    @ApiOperation({
+        summary: 'Проверка токена на валидность, role: SUPER_ADMIN, ADMIN',
+    })
     @ApiResponse({ status: 200 })
     @Get('/validate/token')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    token(@Headers('authorization') authorization: string) {
-        return this.authService.token(authorization)
+    async validateToken(@Headers('authorization') authorization: string) {
+        return this.authService.validateToken(authorization)
     }
 
     @Post('/createUser')
