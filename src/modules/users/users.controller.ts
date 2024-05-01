@@ -17,7 +17,7 @@ import {
 import { User } from './model/users.model'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { Roles } from 'src/decorators/roles-auth.decorator'
-import { AddRoleDto } from './dto/add-role.dto'
+import { AddRoleDto } from './dto/change-user.dto'
 import { BanUserDto } from './dto/ban-user.dto'
 import { DelUserDto } from './dto/delete-user.dto'
 
