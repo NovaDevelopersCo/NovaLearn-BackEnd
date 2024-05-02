@@ -34,10 +34,11 @@ export class AuthController {
     })
     @ApiResponse({ status: 200 })
     @Get('/validate/token')
+    @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    async validateToken(@Headers('authorization') authorization: string) {
-        return this.authService.validateToken(authorization)
+    async validateToken() {
+        return this.authService.validateToken()
     }
 
     @Post('/createUser')

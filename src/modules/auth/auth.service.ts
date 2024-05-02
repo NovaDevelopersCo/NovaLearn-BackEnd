@@ -17,28 +17,8 @@ export class AuthService {
         return this.generateToken(user)
     }
 
-    async validateToken(
-        authorizationHeader: string
-    ): Promise<{ message: string }> {
-        try {
-            const token = this.extractToken(authorizationHeader)
-            const decodedToken = this.jwtService.verify(token)
-
-            if (!decodedToken.roles || !decodedToken.roles.value) {
-                throw new UnauthorizedException('Invalid role in token')
-            }
-
-            const validRoles = ['SUPER_ADMIN', 'ADMIN']
-            const role = decodedToken.roles.value
-
-            if (validRoles.includes(role)) {
-                return { message: 'valid' }
-            } else {
-                return { message: 'no valid' }
-            }
-        } catch (error) {
-            throw new UnauthorizedException('Invalid token')
-        }
+    async validateToken() {
+        return { message: 'valid' }
     }
 
     async createUser() {
