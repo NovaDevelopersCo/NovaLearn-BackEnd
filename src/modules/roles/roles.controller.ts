@@ -40,6 +40,11 @@ export class RolesController {
         return this.roleService.getRoleByValue(value)
     }
 
+    @Get('/:id')
+    getById(@Param('id') id: number) {
+        return this.roleService.getRoleById(id)
+    }
+
     @Put('/:id')
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
