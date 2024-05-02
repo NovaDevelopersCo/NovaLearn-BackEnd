@@ -2,7 +2,7 @@ import { HttpStatus, Injectable, HttpException, Logger } from '@nestjs/common'
 import { User } from './model/users.model'
 import { InjectModel } from '@nestjs/sequelize'
 import { RolesService } from '../roles/roles.service'
-import { changeUserDate } from './dto/change-user.dto'
+import { ChangeUserDateDto } from './dto/change-user.dto'
 import { BanUserDto } from './dto/ban-user.dto'
 import * as bcrypt from 'bcryptjs'
 @Injectable()
@@ -72,29 +72,40 @@ export class UsersService {
         return credential
     }
 
-    async changeUserDate(dto: changeUserDate) {
+    async changeUserDate(dto: ChangeUserDateDto) {
+        // Находим пользователя по его email
         const user = await this.userRepository.findOne({
             where: { email: dto.email },
         })
-        const role = await this.roleService.getRoleByValue(dto.value)
-        if (user && role) {
-            user.roleId = role.id
-            user.save()
+        if (!user) {
+            throw new HttpException(
+                'User not found',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            )
+        }
+
+        if (dto.newEmail) {
+            user.email = dto.newEmail
+        }
+        if (dto.newPassword) {
+            const hashPassword = await bcrypt.hash(dto.newPassword, 10)
+            user.password = hashPassword
+        }
+        if (dto.newRole) {
+            const role = await this.roleService.getRoleByValue(dto.newRole)
+            if (role) {
+                user.roleId = role.id
+            }
+        }
+
+        await user.save()
+
+        return {
+            newEmail: dto.newEmail,
+            newPassword: dto.newPassword,
+            newRole: dto.newRole,
         }
     }
-
-    // async changeRole(dto: AddRoleDto) {
-    //     const user = await this.userRepository.findByPk(dto.userId)
-    //     const role = await this.roleService.getRoleByValue(dto.value)
-    //     if (user && role) {
-    //         user.roleId = role.id
-    //         user.save()
-    //         Logger.log('Role chenged')
-    //         return user
-    //     }
-    //     Logger.log('User or role not found')
-    //     throw new HttpException('User or role not found', HttpStatus.NOT_FOUND)
-    // }
 
     async ban(dto: BanUserDto) {
         const user = await this.userRepository.findByPk(dto.userId)

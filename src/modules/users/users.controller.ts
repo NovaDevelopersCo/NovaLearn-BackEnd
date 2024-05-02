@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
 import {
     ApiBearerAuth,
@@ -17,9 +9,9 @@ import {
 import { User } from './model/users.model'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { Roles } from 'src/decorators/roles-auth.decorator'
-import { AddRoleDto } from './dto/change-user.dto'
 import { BanUserDto } from './dto/ban-user.dto'
 import { DelUserDto } from './dto/delete-user.dto'
+import { ChangeUserDateDto } from './dto/change-user.dto'
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -46,14 +38,14 @@ export class UsersController {
         return this.userService.getUserByEmail(email)
     }
 
-    @ApiOperation({ summary: 'Выдать роль' })
+    @ApiOperation({ summary: 'Замена роли, email, пароля' })
     @ApiResponse({ status: 200 })
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Post('/role')
-    changeRole(@Body() dto: AddRoleDto) {
-        return this.userService.changeRole(dto)
+    @Post('/change')
+    changeUserDate(@Body() dto: ChangeUserDateDto) {
+        return this.userService.changeUserDate(dto)
     }
 
     @Post('/createUser')
