@@ -49,7 +49,7 @@ export class RolesController {
     }
 
     @Delete('/:id')
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     deleteRole(@Param('id') id: number) {
