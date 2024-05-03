@@ -28,18 +28,18 @@ export class UsersService {
         return user
     }
 
-    async delUser(email) {
-        const user = await this.userRepository.findOne({ where: { email } })
+    async delUser(value) {
+        const user = await this.userRepository.findByPk(value)
         if (!user) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         }
         try {
             await user.destroy()
-            Logger.log(`User ${email} was deleted successfully`)
+            Logger.log(`User ${value} was deleted successfully`)
             return { message: 'User deleted successfully', user }
         } catch (error) {
             Logger.log(
-                `Error deleting user with email ${email}: ${error.message}`
+                `Error deleting user with email ${value}: ${error.message}`
             )
             throw new HttpException(
                 'Error deleting user',
@@ -72,11 +72,8 @@ export class UsersService {
         return credential
     }
 
-    async changeUserDate(dto: ChangeUserDateDto) {
-        // Находим пользователя по его email
-        const user = await this.userRepository.findOne({
-            where: { email: dto.email },
-        })
+    async changeUserDate(dto: ChangeUserDateDto, value) {
+        const user = await this.userRepository.findByPk(value)
         if (!user) {
             throw new HttpException(
                 'User not found',
@@ -97,7 +94,7 @@ export class UsersService {
                 user.roleId = role.id
             }
         }
-
+        Logger.log('User change successfully')
         await user.save()
 
         return {

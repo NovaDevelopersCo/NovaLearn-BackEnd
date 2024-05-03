@@ -1,5 +1,5 @@
 export class ChangeUserDateDto {
-    readonly email: string
+    readonly id: number
 
     readonly newEmail?: string
 

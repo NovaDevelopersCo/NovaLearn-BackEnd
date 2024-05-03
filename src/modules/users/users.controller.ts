@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    UseGuards,
+} from '@nestjs/common'
 import { UsersService } from './users.service'
 import {
     ApiBearerAuth,
@@ -43,9 +51,12 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Post('/change')
-    changeUserDate(@Body() dto: ChangeUserDateDto) {
-        return this.userService.changeUserDate(dto)
+    @Post('/change/:value')
+    async changeUserDate(
+        @Param('value') value: number,
+        @Body() dto: ChangeUserDateDto
+    ) {
+        return this.userService.changeUserDate(dto, value)
     }
 
     @Post('/createUser')
@@ -72,8 +83,8 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Delete('/del')
-    delUser(@Body('email') dto: DelUserDto) {
-        return this.userService.delUser(dto)
+    @Delete('/del/:value')
+    delUser(@Param('value') value: number) {
+        return this.userService.delUser(value)
     }
 }
