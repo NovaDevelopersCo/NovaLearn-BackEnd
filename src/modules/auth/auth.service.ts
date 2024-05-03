@@ -23,18 +23,6 @@ export class AuthService {
         return { message: 'valid' }
     }
 
-    async createUser() {
-        const hashPassword = await bcrypt.hash(
-            Math.random().toString(36).slice(-8),
-            10
-        )
-        const user = await this.userService.createUser({
-            email: Math.random().toString(36).slice(-8),
-            password: hashPassword,
-        })
-        return this.generateToken(user)
-    }
-
 
     private async generateToken(user: User) {
         const payload = { email: user.email, id: user.id, roles: user.roles }

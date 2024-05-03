@@ -8,6 +8,8 @@ import {
 
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { AuthService } from './auth.service'
+import { Roles } from 'src/decorators/roles-auth.decorator'
+import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Авторизация')
 @Controller('auth')
@@ -29,13 +31,5 @@ export class AuthController {
     @UseGuards(RolesGuard)
     async validateToken() {
         return this.authService.validateToken()
-    }
-
-    @Post('/createUser')
-    @Roles('ADMIN', 'SUPER_ADMIN')
-    @ApiBearerAuth('JWT-auth')
-    @UseGuards(RolesGuard)
-    createUser() {
-        return this.authService.createUser()
     }
 }
