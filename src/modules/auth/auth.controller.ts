@@ -1,5 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger'
+
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { AuthService } from './auth.service'
 
@@ -11,5 +17,25 @@ export class AuthController {
     @Post('/login')
     login(@Body() userDto: CreateUserDto) {
         return this.authService.login(userDto)
+    }
+
+    @ApiOperation({
+        summary: 'Проверка токена на валидность, role: SUPER_ADMIN, ADMIN',
+    })
+    @ApiResponse({ status: 200 })
+    @Get('/validate/token')
+    @Roles('ADMIN', 'SUPER_ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    async validateToken() {
+        return this.authService.validateToken()
+    }
+
+    @Post('/createUser')
+    @Roles('ADMIN', 'SUPER_ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    createUser() {
+        return this.authService.createUser()
     }
 }

@@ -4,6 +4,7 @@ import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { UsersService } from 'src/modules/users/users.service'
 import * as bcrypt from 'bcryptjs'
 import { User } from 'src/modules/users/model/users.model'
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -16,13 +17,40 @@ export class AuthService {
         Logger.log('User was logged in successfully')
         return this.generateToken(user)
     }
+
+
+    async validateToken() {
+        return { message: 'valid' }
+    }
+
+    async createUser() {
+        const hashPassword = await bcrypt.hash(
+            Math.random().toString(36).slice(-8),
+            10
+        )
+        const user = await this.userService.createUser({
+            email: Math.random().toString(36).slice(-8),
+            password: hashPassword,
+        })
+        return this.generateToken(user)
+    }
+
+
     private async generateToken(user: User) {
         const payload = { email: user.email, id: user.id, roles: user.roles }
         return {
             token: this.jwtService.sign(payload),
         }
     }
-
+    private extractToken(authorizationHeader: string): string {
+        if (
+            !authorizationHeader ||
+            !authorizationHeader.startsWith('Bearer ')
+        ) {
+            throw new UnauthorizedException('Invalid authorization header')
+        }
+        return authorizationHeader.split(' ')[1]
+    }
     private async validateUser(userDto: CreateUserDto) {
         const user = await this.userService.getUserByEmail(userDto.email)
         const passwordEquals = await bcrypt.compare(
