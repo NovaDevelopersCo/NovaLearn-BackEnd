@@ -18,7 +18,6 @@ import { User } from './model/users.model'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { Roles } from 'src/decorators/roles-auth.decorator'
 import { BanUserDto } from './dto/ban-user.dto'
-import { DelUserDto } from './dto/delete-user.dto'
 import { ChangeUserDateDto } from './dto/change-user.dto'
 
 @ApiTags('Пользователи')
@@ -51,12 +50,12 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Post('/change/:value')
+    @Post('/:id')
     async changeUserDate(
-        @Param('value') value: number,
+        @Param('id') id: number,
         @Body() dto: ChangeUserDateDto
     ) {
-        return this.userService.changeUserDate(dto, value)
+        return this.userService.changeUserDate(dto, id)
     }
 
     @Post('/createUser')
@@ -83,8 +82,8 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Delete('/del/:value')
-    delUser(@Param('value') value: number) {
-        return this.userService.delUser(value)
+    @Delete('/:id')
+    delUser(@Param('id') id: number) {
+        return this.userService.delUser(id)
     }
 }
