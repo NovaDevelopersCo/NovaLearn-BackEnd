@@ -28,7 +28,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Получить всех пользователей' })
     @ApiResponse({ status: 200, type: [User] })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Get()
@@ -38,7 +38,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Получить пользователя по Email' })
     @ApiResponse({ status: 200, type: [User] })
-    @Roles('ADMIN', 'SUPER_ADMIN', 'TEACHER')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Get('/email')
@@ -48,7 +48,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Замена роли, email, пароля' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Put('/:id')
@@ -62,7 +62,7 @@ export class UsersController {
     @Post('/createUser')
     @ApiOperation({ summary: 'Создать пользователя' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     createUser() {
@@ -71,7 +71,7 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Забанить пользователя' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post('/ban')
@@ -80,7 +80,7 @@ export class UsersController {
     }
     @ApiOperation({ summary: 'Удалить Пользывателя' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Delete('/:id')

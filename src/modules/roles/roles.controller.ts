@@ -27,7 +27,7 @@ export class RolesController {
 
     @ApiOperation({ summary: 'Создание роли' })
     @ApiResponse({ status: 200, type: Role })
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post()
@@ -46,7 +46,7 @@ export class RolesController {
     }
 
     @Put('/:id')
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     updateRole(@Param('id') id: number, @Body() dto: CreateRoleDto) {
@@ -62,7 +62,7 @@ export class RolesController {
     }
 
     @Get()
-    @Roles('ADMIN', 'SUPER_ADMIN')
+    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     getAll() {
