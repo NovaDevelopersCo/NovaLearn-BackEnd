@@ -39,7 +39,7 @@ export class RolesService {
         if (!role) {
             throw new Error('Role not found')
         }
-        role.value = dto.value
+        role.title = dto.title
         role.description = dto.description
         await role.save()
         return role
