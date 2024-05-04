@@ -7,6 +7,6 @@ export class CreateRoleDto {
     @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
     readonly description: string
 
-    @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
+    @ApiProperty({ example: 1, description: 'Уровень доступа' })
     readonly level_access: number
 }
