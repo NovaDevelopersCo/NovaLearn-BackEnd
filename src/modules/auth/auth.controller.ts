@@ -8,7 +8,7 @@ import {
 
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { AuthService } from './auth.service'
-import { Roles } from 'src/decorators/roles-auth.decorator'
+import { RolesLevel_access } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Авторизация')
@@ -26,7 +26,7 @@ export class AuthController {
     })
     @ApiResponse({ status: 200 })
     @Get('/validate/token')
-    @Roles(3)
+    @RolesLevel_access(3)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     async validateToken() {

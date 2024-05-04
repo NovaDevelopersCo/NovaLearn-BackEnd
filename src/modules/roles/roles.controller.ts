@@ -17,7 +17,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger'
 import { Role } from './model/roles.model'
-import { Roles } from 'src/decorators/roles-auth.decorator'
+import { RolesLevel_access } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Роли')
@@ -27,7 +27,7 @@ export class RolesController {
 
     @ApiOperation({ summary: 'Создание роли' })
     @ApiResponse({ status: 200, type: Role })
-    @Roles(3)
+    @RolesLevel_access(3)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post()
@@ -46,7 +46,7 @@ export class RolesController {
     }
 
     @Put('/:id')
-    @Roles(3)
+    @RolesLevel_access(3)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     updateRole(@Param('id') id: number, @Body() dto: CreateRoleDto) {
@@ -54,7 +54,7 @@ export class RolesController {
     }
 
     @Delete('/:id')
-    @Roles(4)
+    @RolesLevel_access(4)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     deleteRole(@Param('id') id: number) {
@@ -62,7 +62,7 @@ export class RolesController {
     }
 
     @Get()
-    @Roles(3)
+    @RolesLevel_access(3)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     getAll() {
