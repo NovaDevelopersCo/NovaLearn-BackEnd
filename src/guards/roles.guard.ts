@@ -10,6 +10,7 @@ import { Observable } from 'rxjs'
 import { JwtService } from '@nestjs/jwt'
 import { Reflector } from '@nestjs/core'
 import { ROLES_KEY } from '../decorators/roles-auth.decorator'
+import { RolesLevel_access } from 'src/helpers/rolesLevelAccess'
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -42,7 +43,7 @@ export class RolesGuard implements CanActivate {
 
             const user = this.jwtService.verify(token)
             req.user = user
-            return requiredRoles <= user.roles.level_access
+            return RolesLevel_access[requiredRoles] <= user.roles.level_access
         } catch (e) {
             console.log(e)
             throw new HttpException('Нет доступа', HttpStatus.UNAUTHORIZED)
