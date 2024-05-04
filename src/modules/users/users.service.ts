@@ -55,7 +55,7 @@ export class UsersService {
             password: hashPassword,
         })
 
-        const role = await this.roleService.getRoleByValue('SUPER_ADMIN')
+        const role = await this.roleService.getRoleByTitle('SUPER_ADMIN')
         if (user && role) {
             user.roleId = role.id
             await user.save()
@@ -87,7 +87,7 @@ export class UsersService {
             user.password = hashPassword
         }
         if (dto.newRole) {
-            const role = await this.roleService.getRoleByValue(dto.newRole)
+            const role = await this.roleService.getRoleByTitle(dto.newRole)
             if (role) {
                 user.roleId = role.id
             }
