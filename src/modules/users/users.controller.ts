@@ -5,6 +5,7 @@ import {
     Get,
     Param,
     Post,
+    Put,
     UseGuards,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
@@ -50,7 +51,7 @@ export class UsersController {
     @Roles('ADMIN', 'SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Post('/:id')
+    @Put('/:id')
     async changeUserDate(
         @Param('id') id: number,
         @Body() dto: ChangeUserDateDto
