@@ -19,8 +19,8 @@ export class RolesService {
         return role
     }
 
-    async getRoleByValue(value: string) {
-        const role = await this.roleRepository.findOne({ where: { value } })
+    async getRoleByTitle(title: string) {
+        const role = await this.roleRepository.findOne({ where: { title } })
         return role
     }
 
@@ -39,7 +39,7 @@ export class RolesService {
         if (!role) {
             throw new Error('Role not found')
         }
-        role.value = dto.value
+        role.title = dto.title
         role.description = dto.description
         await role.save()
         return role

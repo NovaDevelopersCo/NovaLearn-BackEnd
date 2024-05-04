@@ -3,7 +3,8 @@ import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
 import { User } from 'src/modules/users/model/users.model'
 
 interface RoleCreationAttrs {
-    value: string
+    title: string
+    level_access: number
     description: string
 }
 @Table({ tableName: 'roles' })
@@ -19,11 +20,15 @@ export class Role extends Model<Role, RoleCreationAttrs> {
 
     @ApiProperty({ example: 'ADMIN', description: 'Значение роли' })
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
-    value: string
+    title: string
 
     @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
     @Column({ type: DataType.STRING, allowNull: false })
     description: string
+
+    @ApiProperty({ example: 'ADMIN', description: 'Значение роли' })
+    @Column({ type: DataType.INTEGER, unique: true, allowNull: false })
+    level_access: number
 
     @HasMany(() => User)
     users: User[]

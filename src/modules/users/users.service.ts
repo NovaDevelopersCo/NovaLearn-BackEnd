@@ -38,9 +38,7 @@ export class UsersService {
             Logger.log(`User ${id} was deleted successfully`)
             return { message: 'User deleted successfully', user }
         } catch (error) {
-            Logger.log(
-                `Error deleting user with email ${id}: ${error.message}`
-            )
+            Logger.log(`Error deleting user with email ${id}: ${error.message}`)
             throw new HttpException(
                 'Error deleting user',
                 HttpStatus.INTERNAL_SERVER_ERROR
@@ -57,7 +55,7 @@ export class UsersService {
             password: hashPassword,
         })
 
-        const role = await this.roleService.getRoleByValue('STUDENT')
+        const role = await this.roleService.getRoleByTitle('SUPER_ADMIN')
         if (user && role) {
             user.roleId = role.id
             await user.save()
@@ -89,7 +87,7 @@ export class UsersService {
             user.password = hashPassword
         }
         if (dto.newRole) {
-            const role = await this.roleService.getRoleByValue(dto.newRole)
+            const role = await this.roleService.getRoleByTitle(dto.newRole)
             if (role) {
                 user.roleId = role.id
             }
