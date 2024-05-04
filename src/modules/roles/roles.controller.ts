@@ -35,25 +35,30 @@ export class RolesController {
         return this.roleService.createRole(dto)
     }
 
-    @Get('/:value')
-    getByValue(@Param('value') value: string) {
-        return this.roleService.getRoleByValue(value)
+    @Get('/:title')
+    getBytitle(@Param('title') title: string) {
+        return this.roleService.getRoleByTitle(title)
     }
 
-    @Put('/:value')
+    @Get('/:id')
+    getById(@Param('id') id: number) {
+        return this.roleService.getRoleById(id)
+    }
+
+    @Put('/:id')
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    updateRole(@Param('value') value: string, @Body() dto: CreateRoleDto) {
-        return this.roleService.updateRole(value, dto)
+    updateRole(@Param('id') id: number, @Body() dto: CreateRoleDto) {
+        return this.roleService.updateRole(id, dto)
     }
 
-    @Delete('/:value')
-    @Roles('ADMIN')
+    @Delete('/:id')
+    @Roles('SUPER_ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    deleteRole(@Param('value') value: string) {
-        return this.roleService.deleteRole(value)
+    deleteRole(@Param('id') id: number) {
+        return this.roleService.deleteRole(id)
     }
 
     @Get()

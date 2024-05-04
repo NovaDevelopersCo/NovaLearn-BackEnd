@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common'
 import { UsersService } from './users.service'
 import {
     ApiBearerAuth,
@@ -9,8 +18,8 @@ import {
 import { User } from './model/users.model'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { Roles } from 'src/decorators/roles-auth.decorator'
-import { AddRoleDto } from './dto/add-role.dto'
 import { BanUserDto } from './dto/ban-user.dto'
+import { ChangeUserDateDto } from './dto/change-user.dto'
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -27,14 +36,37 @@ export class UsersController {
         return this.userService.getAllUsers()
     }
 
-    @ApiOperation({ summary: 'Выдать роль' })
+    @ApiOperation({ summary: 'Получить пользователя по Email' })
+    @ApiResponse({ status: 200, type: [User] })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    @Get('/email')
+    getUserByEmail(@Body('email') email: string) {
+        return this.userService.getUserByEmail(email)
+    }
+
+    @ApiOperation({ summary: 'Замена роли, email, пароля' })
     @ApiResponse({ status: 200 })
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
-    @Post('/role')
-    changeRole(@Body() dto: AddRoleDto) {
-        return this.userService.changeRole(dto)
+    @Put('/:id')
+    async changeUserDate(
+        @Param('id') id: number,
+        @Body() dto: ChangeUserDateDto
+    ) {
+        return this.userService.changeUserDate(dto, id)
+    }
+
+    @Post('/createUser')
+    @ApiOperation({ summary: 'Создать пользователя' })
+    @ApiResponse({ status: 200 })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    createUser() {
+        return this.userService.createUser()
     }
 
     @ApiOperation({ summary: 'Забанить пользователя' })
@@ -45,5 +77,14 @@ export class UsersController {
     @Post('/ban')
     banUser(@Body() dto: BanUserDto) {
         return this.userService.ban(dto)
+    }
+    @ApiOperation({ summary: 'Удалить Пользывателя' })
+    @ApiResponse({ status: 200 })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
+    @Delete('/:id')
+    delUser(@Param('id') id: number) {
+        return this.userService.delUser(id)
     }
 }

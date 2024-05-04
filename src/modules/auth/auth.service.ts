@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto'
 import { UsersService } from 'src/modules/users/users.service'
 import * as bcrypt from 'bcryptjs'
 import { User } from 'src/modules/users/model/users.model'
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -13,19 +14,12 @@ export class AuthService {
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
+        Logger.log('User was logged in successfully')
         return this.generateToken(user)
     }
 
-    async createUser() {
-        const hashPassword = await bcrypt.hash(
-            Math.random().toString(36).slice(-8),
-            10
-        )
-        const user = await this.userService.createUser({
-            email: Math.random().toString(36).slice(-8),
-            password: hashPassword,
-        })
-        return this.generateToken(user)
+    async validateToken() {
+        return { message: 'valid' }
     }
 
     private async generateToken(user: User) {
@@ -34,7 +28,15 @@ export class AuthService {
             token: this.jwtService.sign(payload),
         }
     }
-
+    private extractToken(authorizationHeader: string): string {
+        if (
+            !authorizationHeader ||
+            !authorizationHeader.startsWith('Bearer ')
+        ) {
+            throw new UnauthorizedException('Invalid authorization header')
+        }
+        return authorizationHeader.split(' ')[1]
+    }
     private async validateUser(userDto: CreateUserDto) {
         const user = await this.userService.getUserByEmail(userDto.email)
         const passwordEquals = await bcrypt.compare(
@@ -44,6 +46,7 @@ export class AuthService {
         if (user && passwordEquals) {
             return user
         }
+        Logger.log('Wrong email or password')
         throw new UnauthorizedException({ message: 'Wrong email or password' })
     }
 }

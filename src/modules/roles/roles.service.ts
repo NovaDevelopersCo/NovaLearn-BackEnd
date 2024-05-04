@@ -19,22 +19,27 @@ export class RolesService {
         return role
     }
 
-    async getRoleByValue(value: string) {
-        const role = await this.roleRepository.findOne({ where: { value } })
+    async getRoleByTitle(title: string) {
+        const role = await this.roleRepository.findOne({ where: { title } })
         return role
     }
 
-    async deleteRole(value: string) {
-        await this.roleRepository.destroy({ where: { value } })
+    async getRoleById(id: number) {
+        const role = await this.roleRepository.findOne({ where: { id } })
+        return role
+    }
+
+    async deleteRole(id: number) {
+        await this.roleRepository.destroy({ where: { id } })
         return { status: HttpStatus.OK, message: 'Role deleted' }
     }
 
-    async updateRole(value: string, dto) {
-        const role = await this.getRoleByValue(value)
+    async updateRole(id: number, dto) {
+        const role = await this.getRoleById(id)
         if (!role) {
             throw new Error('Role not found')
         }
-        role.value = dto.value
+        role.title = dto.title
         role.description = dto.description
         await role.save()
         return role
