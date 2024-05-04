@@ -55,7 +55,7 @@ export class UsersService {
             password: hashPassword,
         })
 
-        const role = await this.roleService.getRoleByValue('STUDENT')
+        const role = await this.roleService.getRoleByValue('SUPER_ADMIN')
         if (user && role) {
             user.roleId = role.id
             await user.save()
