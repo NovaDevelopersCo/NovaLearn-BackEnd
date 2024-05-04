@@ -38,9 +38,7 @@ export class UsersService {
             Logger.log(`User ${id} was deleted successfully`)
             return { message: 'User deleted successfully', user }
         } catch (error) {
-            Logger.log(
-                `Error deleting user with email ${id}: ${error.message}`
-            )
+            Logger.log(`Error deleting user with email ${id}: ${error.message}`)
             throw new HttpException(
                 'Error deleting user',
                 HttpStatus.INTERNAL_SERVER_ERROR
