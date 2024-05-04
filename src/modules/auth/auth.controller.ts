@@ -26,7 +26,7 @@ export class AuthController {
     })
     @ApiResponse({ status: 200 })
     @Get('/validate/token')
-    @Roles('ADMIN')
+    @Roles(3)
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     async validateToken() {

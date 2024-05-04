@@ -18,7 +18,7 @@ export class Role extends Model<Role, RoleCreationAttrs> {
     })
     id?: number
 
-    @ApiProperty({ example: 'ADMIN', description: 'Значение роли' })
+    @ApiProperty({ example: 3, description: 'Значение роли' })
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
     title: string
 
@@ -26,7 +26,7 @@ export class Role extends Model<Role, RoleCreationAttrs> {
     @Column({ type: DataType.STRING, allowNull: false })
     description: string
 
-    @ApiProperty({ example: 'ADMIN', description: 'Значение роли' })
+    @ApiProperty({ example: 3, description: 'Значение роли' })
     @Column({ type: DataType.INTEGER, unique: true, allowNull: false })
     level_access: number
 
