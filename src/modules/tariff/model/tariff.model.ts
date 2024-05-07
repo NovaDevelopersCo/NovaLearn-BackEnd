@@ -6,6 +6,7 @@ interface tariffCreationAttrs {
     title: string
     level_access: number
     description: string
+    price: number
 }
 @Table({ tableName: 'tariff' })
 export class Tariff extends Model<Tariff, tariffCreationAttrs> {

@@ -18,9 +18,9 @@ interface UserCreationAttrs {
     email: string
     password: string
     tariffId: number
-    tariffs: Tariff
+    tariff: Tariff
     roleId: number
-    roles: Role
+    role: Role
     profile: Profile
 }
 @Table({ tableName: 'users' })
@@ -69,10 +69,10 @@ export class User extends Model<User, UserCreationAttrs> {
     tariffId: number
 
     @BelongsTo(() => Tariff)
-    tariffs: Tariff
+    tariff: Tariff
 
     @BelongsTo(() => Role)
-    roles: Role
+    role: Role
 
     @HasMany(() => Post)
     posts: Post[]
