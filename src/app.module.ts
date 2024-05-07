@@ -11,6 +11,9 @@ import { Post } from './modules/posts/model/posts.model'
 import { FilesModule } from './modules/files/files.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
+import { TariffModule } from './modules/tariff/tariff.module'
+import { Tariff } from './modules/tariff/model/tariff.model'
+
 @Module({
     controllers: [],
     providers: [],
@@ -35,11 +38,12 @@ import * as path from 'path'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Post],
+            models: [User, Role, Post, Tariff],
             autoLoadModels: true,
             synchronize: true,
         }),
         UsersModule,
+        TariffModule,
         RolesModule,
         AuthModule,
         PostsModule,
