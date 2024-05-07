@@ -28,6 +28,7 @@ export class TariffController {
     @ApiOperation({ summary: 'Создание Тарифа' })
     @ApiResponse({ status: 200, type: Tariff })
     @ApiBearerAuth('JWT-auth')
+    @Roles('SUPER_ADMIN')
     @UseGuards(RolesGuard)
     @Post()
     create(@Body() dto: CreateTariffDto) {
