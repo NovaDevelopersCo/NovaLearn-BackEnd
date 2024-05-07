@@ -10,12 +10,14 @@ import {
 } from 'sequelize-typescript'
 import { Post } from 'src/modules/posts/model/posts.model'
 import { Role } from 'src/modules/roles/model/roles.model'
+import { Profile, ProfileDefault } from './profile.model'
 
 interface UserCreationAttrs {
     email: string
     password: string
     roleId: number
     roles: Role
+    profile: Profile
 }
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
@@ -43,6 +45,14 @@ export class User extends Model<User, UserCreationAttrs> {
     @ApiProperty({ example: 'Флуд', description: 'Прчина бана' })
     @Column({ type: DataType.STRING, allowNull: true, defaultValue: null })
     banReason: string
+
+    @ApiProperty({ example: 'Флуд', description: 'Прчина бана' })
+    @Column({
+        type: DataType.JSON,
+        allowNull: true,
+        defaultValue: ProfileDefault,
+    })
+    profile: Profile
 
     @ApiProperty({ example: 1, description: 'Id категории' })
     @ForeignKey(() => Role)
