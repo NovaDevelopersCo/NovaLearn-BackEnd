@@ -22,6 +22,10 @@ export class Tariff extends Model<Tariff, tariffCreationAttrs> {
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
     title: string
 
+    @ApiProperty({ example: 3, description: 'Цена тарифа' })
+    @Column({ type: DataType.STRING, unique: true, allowNull: false })
+    price: number
+
     @ApiProperty({ example: 'Базовый тариф', description: 'Описание тарифа' })
     @Column({ type: DataType.STRING, allowNull: false })
     description: string
