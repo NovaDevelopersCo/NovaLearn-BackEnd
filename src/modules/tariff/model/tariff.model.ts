@@ -23,7 +23,7 @@ export class Tariff extends Model<Tariff, tariffCreationAttrs> {
     title: string
 
     @ApiProperty({ example: 3, description: 'Цена тарифа' })
-    @Column({ type: DataType.STRING, unique: true, allowNull: false })
+    @Column({ type: DataType.INTEGER, allowNull: false })
     price: number
 
     @ApiProperty({ example: 'Базовый тариф', description: 'Описание тарифа' })
