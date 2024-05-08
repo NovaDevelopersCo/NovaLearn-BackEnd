@@ -43,7 +43,7 @@ export class RolesGuard implements CanActivate {
 
             const user = this.jwtService.verify(token)
             req.user = user
-            return RolesLevel_access[requiredRole] <= user.roles.level_access
+            return RolesLevel_access[requiredRole] <= user.role.level_access
         } catch (e) {
             console.log(e)
             throw new HttpException('Нет доступа', HttpStatus.UNAUTHORIZED)
