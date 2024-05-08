@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
     BelongsTo,
+    BelongsToMany,
     Column,
     DataType,
     ForeignKey,
@@ -10,9 +11,10 @@ import {
 } from 'sequelize-typescript'
 import { Post } from 'src/modules/posts/model/posts.model'
 import { Role } from 'src/modules/roles/model/roles.model'
+import { Tags } from 'src/modules/tags/model/tags.model'
 import { Tariff } from 'src/modules/tariff/model/tariff.model'
 import { Profile, ProfileDefault } from './profile.model'
-
+import { UserTag } from 'src/modules/tags/model/tagsUser.model'
 
 interface UserCreationAttrs {
     email: string
@@ -22,6 +24,7 @@ interface UserCreationAttrs {
     roleId: number
     role: Role
     profile: Profile
+    tags: Tags[]
 }
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
@@ -50,7 +53,7 @@ export class User extends Model<User, UserCreationAttrs> {
     @Column({ type: DataType.STRING, allowNull: true, defaultValue: null })
     banReason: string
 
-    @ApiProperty({ example: 'Флуд', description: 'Прчина бана' })
+    @ApiProperty({ description: 'Информация о пользывателе' })
     @Column({
         type: DataType.JSON,
         allowNull: true,
@@ -67,6 +70,9 @@ export class User extends Model<User, UserCreationAttrs> {
     @ForeignKey(() => Tariff)
     @Column({ type: DataType.INTEGER })
     tariffId: number
+
+    @BelongsToMany(() => Tags, () => UserTag)
+    tags: Tags[]
 
     @BelongsTo(() => Tariff)
     tariff: Tariff

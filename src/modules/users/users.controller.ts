@@ -62,7 +62,7 @@ export class UsersController {
     @Post('/createUser')
     @ApiOperation({ summary: 'Создать пользователя' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     createUser() {
