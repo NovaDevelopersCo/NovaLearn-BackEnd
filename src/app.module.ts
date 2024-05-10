@@ -11,6 +11,7 @@ import { Post } from './modules/posts/model/posts.model'
 import { FilesModule } from './modules/files/files.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
+import { TeamsModule } from './modules/teams/teams.module'
 @Module({
     controllers: [],
     providers: [],
@@ -44,6 +45,7 @@ import * as path from 'path'
         AuthModule,
         PostsModule,
         FilesModule,
+        TeamsModule,
     ],
 })
 export class AppModule {}

@@ -7,8 +7,8 @@ import { Team } from './model/teams.model';
 import { FilesModule } from '../files/files.module';
 
 @Module({
-    providers: [TeamsController],
-    controllers: [TeamsService],
+    providers: [TeamsService],
+    controllers: [TeamsController],
     imports: [SequelizeModule.forFeature([User, Team]), FilesModule],
 })
 export class TeamsModule {}
