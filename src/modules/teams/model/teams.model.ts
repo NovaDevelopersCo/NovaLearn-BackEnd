@@ -46,7 +46,7 @@ export class Team extends Model<Team, TeamCreationAttrs> {
 
     @ApiProperty({ example: 1, description: 'ID пользователя' })
     @ForeignKey(() => User)
-    @Column({ type: DataType.INTEGER })
+    @Column({ type: DataType.ARRAY(DataType.INTEGER) })
     userId: number
 
     @BelongsTo(() => User)

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
+import { IsArray, IsNumber, IsString } from 'class-validator'
 
 export class CreateTeamDto {
     @ApiProperty({ example: 'Крутая команда', description: 'Название команды' })

@@ -78,7 +78,7 @@ export class UsersController {
     banUser(@Body() dto: BanUserDto) {
         return this.userService.ban(dto)
     }
-    @ApiOperation({ summary: 'Удалить Пользывателя' })
+    @ApiOperation({ summary: 'Удалить пользователя' })
     @ApiResponse({ status: 200 })
     @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')

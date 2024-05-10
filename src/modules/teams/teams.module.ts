@@ -10,5 +10,6 @@ import { FilesModule } from '../files/files.module'
     providers: [TeamsService],
     controllers: [TeamsController],
     imports: [SequelizeModule.forFeature([User, Team]), FilesModule],
+    exports: [TeamsService]
 })
 export class TeamsModule {}

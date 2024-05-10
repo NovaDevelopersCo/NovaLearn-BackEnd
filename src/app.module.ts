@@ -12,6 +12,7 @@ import { FilesModule } from './modules/files/files.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
 import { TeamsModule } from './modules/teams/teams.module'
+import { Team } from './modules/teams/model/teams.model'
 @Module({
     controllers: [],
     providers: [],
@@ -36,7 +37,7 @@ import { TeamsModule } from './modules/teams/teams.module'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Post],
+            models: [User, Role, Team, Post],
             autoLoadModels: true,
             synchronize: true,
         }),

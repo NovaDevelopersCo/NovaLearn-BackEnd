@@ -27,6 +27,11 @@ export class TeamsService {
         return team
     }
 
+    async getTeamById(id) {
+        const team = await this.teamRepository.findOne({ where: { id } })
+        return team
+    }
+
     async createTeam(dto: CreateTeamDto, image: any) {
         const fileName = await this.fileService.createFile(image)
         const team = await this.teamRepository.create({

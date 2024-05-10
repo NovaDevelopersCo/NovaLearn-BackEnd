@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript'
 import { Post } from 'src/modules/posts/model/posts.model'
 import { Role } from 'src/modules/roles/model/roles.model'
+import { Team } from 'src/modules/teams/model/teams.model'
 
 interface UserCreationAttrs {
     email: string
@@ -40,7 +41,7 @@ export class User extends Model<User, UserCreationAttrs> {
     @Column({ type: DataType.BOOLEAN, defaultValue: false })
     banned: boolean
 
-    @ApiProperty({ example: 'Флуд', description: 'Прчина бана' })
+    @ApiProperty({ example: 'Флуд', description: 'Причина бана' })
     @Column({ type: DataType.STRING, allowNull: true, defaultValue: null })
     banReason: string
 
@@ -51,6 +52,14 @@ export class User extends Model<User, UserCreationAttrs> {
 
     @BelongsTo(() => Role)
     roles: Role
+
+    @ApiProperty({ example: 1, description: 'Id команды' })
+    @ForeignKey(() => Team)
+    @Column({ type: DataType.INTEGER })
+    teamId?: number
+
+    @BelongsTo(() => Team)
+    team?: Team
 
     @HasMany(() => Post)
     posts: Post[]
