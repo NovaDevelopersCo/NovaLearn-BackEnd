@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
-import { InjectModel } from "@nestjs/sequelize";
-import { Team } from "./model/teams.model";
-import { FilesService } from "../files/files.service";
-import { CreateTeamDto } from "./dto/create-team.dto";
-import { ChangeTeamDateDto } from "./dto/change-team.dto";
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
+import { InjectModel } from '@nestjs/sequelize'
+import { Team } from './model/teams.model'
+import { FilesService } from '../files/files.service'
+import { CreateTeamDto } from './dto/create-team.dto'
+import { ChangeTeamDateDto } from './dto/change-team.dto'
 
 @Injectable()
 export class TeamsService {

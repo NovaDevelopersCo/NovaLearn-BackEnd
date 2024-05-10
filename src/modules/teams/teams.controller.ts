@@ -1,10 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { CreateTeamDto } from "./dto/create-team.dto";
-import { TeamsService } from "./teams.service";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { Team } from "./model/teams.model";
-import { ChangeTeamDateDto } from "./dto/change-team.dto";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UploadedFile,
+    UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { CreateTeamDto } from './dto/create-team.dto'
+import { TeamsService } from './teams.service'
+import { ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Team } from './model/teams.model'
+import { ChangeTeamDateDto } from './dto/change-team.dto'
 
 @Controller('teams')
 export class TeamsController {
