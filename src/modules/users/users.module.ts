@@ -17,7 +17,7 @@ import { TagsModule } from '../tags/tags.module'
     providers: [UsersService],
     imports: [
         SequelizeModule.forFeature([User, Role, Post, Tags, UserTag]),
-        TagsModule,
+        forwardRef(() => TagsModule),
         RolesModule,
         TariffModule,
         forwardRef(() => AuthModule),
