@@ -1,3 +1,5 @@
+import { TagsModule } from './modules/tags/tags.module'
+import { TagsController } from './modules/tags/tags.controller'
 import { Module } from '@nestjs/common'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { UsersModule } from './modules/users/users.module'
@@ -15,9 +17,11 @@ import { TeamsModule } from './modules/teams/teams.module'
 import { Team } from './modules/teams/model/teams.model'
 import { TariffModule } from './modules/tariff/tariff.module'
 import { Tariff } from './modules/tariff/model/tariff.model'
+import { Tags } from './modules/tags/model/tags.model'
+import { UserTag } from './modules/tags/model/tagsUser.model'
 
 @Module({
-    controllers: [],
+    controllers: [TagsController],
     providers: [],
     imports: [
         ConfigModule.forRoot({
@@ -40,13 +44,14 @@ import { Tariff } from './modules/tariff/model/tariff.model'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Team, Post, Tariff],
+            models: [User, Role, Team, Post, Tariff, Tags, UserTag],
             autoLoadModels: true,
             synchronize: true,
         }),
         UsersModule,
         TariffModule,
         RolesModule,
+        TagsModule,
         AuthModule,
         PostsModule,
         FilesModule,

@@ -48,8 +48,8 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Замена роли, email, пароля, тарифа' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
+    @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
     async changeUserDate(
