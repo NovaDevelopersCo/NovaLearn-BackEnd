@@ -25,7 +25,7 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Создать команду' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+    @Roles('TEACHER')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Post()
@@ -36,9 +36,6 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Получить все команды' })
     @ApiResponse({ status: 200, type: [Team] })
-    @Roles('ADMIN')
-    @ApiBearerAuth('JWT-auth')
-    @UseGuards(RolesGuard)
     @Get()
     getAll() {
         return this.teamsService.getAllTeams()
@@ -46,9 +43,6 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Получить команду по названию' })
     @ApiResponse({ status: 200, type: [Team] })
-    @Roles('ADMIN')
-    @ApiBearerAuth('JWT-auth')
-    @UseGuards(RolesGuard)
     @Get('/title')
     getTeamByTitle(@Body('title') title: string) {
         return this.teamsService.getTeamByTitle(title)
@@ -56,7 +50,7 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Заменить название, описание, картинку' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+    @Roles('TEACHER')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Put('/:id')
@@ -69,7 +63,7 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Удалить команду' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
+    @Roles('TEACHER')
     @ApiBearerAuth('JWT-auth')
     @UseGuards(RolesGuard)
     @Delete('/:id')
