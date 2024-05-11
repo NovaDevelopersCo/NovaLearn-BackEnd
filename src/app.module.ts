@@ -42,7 +42,7 @@ import { UserTag } from './modules/tags/model/tagsUser.model'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Post, Tariff, Tags,UserTag],
+            models: [User, Role, Post, Tariff, Tags, UserTag],
             autoLoadModels: true,
             synchronize: true,
         }),

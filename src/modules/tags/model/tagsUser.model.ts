@@ -27,7 +27,7 @@ export class UserTag extends Model<UserTag> {
 
     @BelongsTo(() => User)
     user: User
-    
+
     @BelongsTo(() => Tags)
     tag: Tags
 }
