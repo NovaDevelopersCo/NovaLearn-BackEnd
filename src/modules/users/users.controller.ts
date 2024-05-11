@@ -46,10 +46,10 @@ export class UsersController {
         return this.userService.getUserByEmail(email)
     }
 
-    @ApiOperation({ summary: 'Замена роли, email, пароля' })
+    @ApiOperation({ summary: 'Замена роли, email, пароля, тарифа' })
     @ApiResponse({ status: 200 })
-    @Roles('ADMIN')
     @ApiBearerAuth('JWT-auth')
+    @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
     async changeUserDate(
