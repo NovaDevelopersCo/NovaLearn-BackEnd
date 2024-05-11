@@ -13,8 +13,6 @@ import { Post } from './modules/posts/model/posts.model'
 import { FilesModule } from './modules/files/files.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
-import { TeamsModule } from './modules/teams/teams.module'
-import { Team } from './modules/teams/model/teams.model'
 import { TariffModule } from './modules/tariff/tariff.module'
 import { Tariff } from './modules/tariff/model/tariff.model'
 import { Tags } from './modules/tags/model/tags.model'
@@ -44,7 +42,7 @@ import { UserTag } from './modules/tags/model/tagsUser.model'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Team, Post, Tariff, Tags, UserTag],
+            models: [User, Role, Post, Tariff, Tags, UserTag],
             autoLoadModels: true,
             synchronize: true,
         }),
@@ -55,7 +53,6 @@ import { UserTag } from './modules/tags/model/tagsUser.model'
         AuthModule,
         PostsModule,
         FilesModule,
-        TeamsModule,
     ],
 })
 export class AppModule {}
