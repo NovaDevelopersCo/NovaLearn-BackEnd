@@ -10,13 +10,19 @@ import {
 } from 'sequelize-typescript'
 import { Post } from 'src/modules/posts/model/posts.model'
 import { Role } from 'src/modules/roles/model/roles.model'
+import { Tariff } from 'src/modules/tariff/model/tariff.model'
+import { Profile, ProfileDefault } from './profile.model'
+
 import { Team } from 'src/modules/teams/model/teams.model'
 
 interface UserCreationAttrs {
     email: string
     password: string
+    tariffId: number
+    tariff: Tariff
     roleId: number
-    roles: Role
+    role: Role
+    profile: Profile
 }
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
@@ -45,13 +51,29 @@ export class User extends Model<User, UserCreationAttrs> {
     @Column({ type: DataType.STRING, allowNull: true, defaultValue: null })
     banReason: string
 
+    @ApiProperty({ example: 'Флуд', description: 'Прчина бана' })
+    @Column({
+        type: DataType.JSON,
+        allowNull: true,
+        defaultValue: ProfileDefault,
+    })
+    profile: Profile
+
     @ApiProperty({ example: 1, description: 'Id категории' })
     @ForeignKey(() => Role)
     @Column({ type: DataType.INTEGER })
     roleId: number
 
+    @ApiProperty({ example: 1, description: 'Id тарифа' })
+    @ForeignKey(() => Tariff)
+    @Column({ type: DataType.INTEGER })
+    tariffId: number
+
+    @BelongsTo(() => Tariff)
+    tariff: Tariff
+
     @BelongsTo(() => Role)
-    roles: Role
+    role: Role
 
     @ApiProperty({ example: 1, description: 'Id команды' })
     @ForeignKey(() => Team)

@@ -13,6 +13,9 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
 import { TeamsModule } from './modules/teams/teams.module'
 import { Team } from './modules/teams/model/teams.model'
+import { TariffModule } from './modules/tariff/tariff.module'
+import { Tariff } from './modules/tariff/model/tariff.model'
+
 @Module({
     controllers: [],
     providers: [],
@@ -37,11 +40,12 @@ import { Team } from './modules/teams/model/teams.model'
                     rejectUnauthorized: false,
                 },
             },
-            models: [User, Role, Team, Post],
+            models: [User, Role, Team, Post, Tariff],
             autoLoadModels: true,
             synchronize: true,
         }),
         UsersModule,
+        TariffModule,
         RolesModule,
         AuthModule,
         PostsModule,

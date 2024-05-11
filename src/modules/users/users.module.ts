@@ -7,6 +7,7 @@ import { Role } from 'src/modules/roles/model/roles.model'
 import { RolesModule } from 'src/modules/roles/roles.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
 import { Post } from 'src/modules/posts/model/posts.model'
+import { TariffModule } from '../tariff/tariff.module'
 import { TeamsModule } from '../teams/teams.module'
 import { Team } from '../teams/model/teams.model'
 
@@ -16,6 +17,7 @@ import { Team } from '../teams/model/teams.model'
     imports: [
         SequelizeModule.forFeature([User, Role, Team, Post]),
         RolesModule,
+        TariffModule,
         TeamsModule,
         forwardRef(() => AuthModule),
     ],
