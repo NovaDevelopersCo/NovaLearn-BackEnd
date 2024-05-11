@@ -7,14 +7,17 @@ import {
     Post,
     Put,
     UploadedFile,
+    UseGuards,
     UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CreateTeamDto } from './dto/create-team.dto'
 import { TeamsService } from './teams.service'
-import { ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { Team } from './model/teams.model'
 import { ChangeTeamDateDto } from './dto/change-team.dto'
+import { Roles } from 'src/decorators/roles-auth.decorator'
+import { RolesGuard } from 'src/guards/roles.guard'
 
 @Controller('teams')
 export class TeamsController {
@@ -22,6 +25,9 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Создать команду' })
     @ApiResponse({ status: 200 })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     createTeam(@Body() dto: CreateTeamDto, @UploadedFile() image) {
@@ -30,6 +36,9 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Получить все команды' })
     @ApiResponse({ status: 200, type: [Team] })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Get()
     getAll() {
         return this.teamsService.getAllTeams()
@@ -37,6 +46,9 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Получить команду по названию' })
     @ApiResponse({ status: 200, type: [Team] })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Get('/title')
     getTeamByTitle(@Body('title') title: string) {
         return this.teamsService.getTeamByTitle(title)
@@ -44,6 +56,9 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Заменить название, описание, картинку' })
     @ApiResponse({ status: 200 })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Put('/:id')
     async changeTeamDate(
         @Param('id') id: number,
@@ -54,6 +69,9 @@ export class TeamsController {
 
     @ApiOperation({ summary: 'Удалить команду' })
     @ApiResponse({ status: 200 })
+    @Roles('ADMIN')
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(RolesGuard)
     @Delete('/:id')
     delTeam(@Param('id') id: number) {
         return this.teamsService.delTeam(id)

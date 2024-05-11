@@ -64,7 +64,7 @@ export class UsersService {
         }
 
         const team = await this.teamService.getTeamByTitle('Cool Team')
-        if ( user && team ) {
+        if (user && team) {
             user.teamId = team.id
             await user.save()
         }
